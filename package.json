@@ -1,0 +1,29 @@
+{
+  "name": "cache2db-proxy",
+  "version": "0.9.0",
+  "description": "Node.js proxy with ability to store HTTP cache to database",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YodaCoders/node-cache2db-proxy.git"
+  },
+  "keywords": [
+    "node",
+    "proxy",
+    "http",
+    "database",
+    "mongodb"
+  ],
+  "author": "Yuriy Chachora",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YodaCoders/node-cache2db-proxy/issues"
+  },
+  "homepage": "https://github.com/YodaCoders/node-cache2db-proxy#readme",
+  "dependencies": {
+    "node-http-proxy": "^0.2.3"
+  }
+}
