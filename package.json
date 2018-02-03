@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/YodaCoders/node-cache2db-proxy#readme",
   "dependencies": {
-    "node-http-proxy": "^0.2.3"
+    "http-proxy": "^1.16.2"
   }
 }
