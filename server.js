@@ -9,6 +9,28 @@ const proxyOptions = {...config.proxy};
 //
 const proxy = httpProxy.createProxyServer(proxyOptions);
 
+// Received response event
+proxy.on('proxyRes', (proxyRes, req, res) => {
+  let chunks = [];
+  proxyRes.on('data', (chunk) => {
+    chunks.push(chunk);
+  });
+  proxyRes.on('end', () =>
+  {
+    let body = Buffer.concat(chunks).buffer;
+    console.log(body);
+
+    // proxyRes.
+    // write response to database
+    let data = {};
+    data.url = req.url;
+    data.resHeaders = res.headers;
+    data.resBody = body;
+    data.ttl = 1000; // TODO take from config
+    console.log(data); // TODO write to database
+  });
+});
+
 //
 // Create your target server
 //
