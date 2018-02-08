@@ -1,20 +1,7 @@
 {
   "proxy": {
     "changeOrigin": false,
-    "target": {
-      "protocol": "https:",
-      "slashes": true,
-      "auth": null,
-      "host": "www.host.com:8888",
-      "port": "8888",
-      "hostname": "www.host.com",
-      "hash": null,
-      "search": null,
-      "query": null,
-      "pathname": "/",
-      "path": "/",
-      "href": "https://www.host.com:8245/"
-    },
+    "target": "https://www.host.com:8245/",
     "secure": false
   },
   "port": 9000
