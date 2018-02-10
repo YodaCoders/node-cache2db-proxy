@@ -2,7 +2,7 @@ const http = require('http');
 const httpProxy = require('http-proxy');
 const config = require('config');
 const db = require('./db');
-const port = config.port;
+const port = config.get('port');
 const proxyOptions = {...config.proxy};
 
 //
