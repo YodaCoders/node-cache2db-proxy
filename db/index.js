@@ -24,13 +24,16 @@ class CacheDb {
     let date = new Date(Date.now());
     date = date.toUTCString();
     // Insert/Update some documents
-    this.collection.updateOne({url: data.url}, {$set: {...data, ttl, date}},  {upsert: true})
+    this.collection.updateOne({method:data.method, url: data.url}, {$set: {...data, ttl, date}},  {upsert: true})
       .catch(err => {throw err});
   }
 
-  async readCache(url) {
+  async readCache(method, url) {
     try {
-      const cache = await this.collection.findOne({url});
+      const cache = await this.collection.findOne({method, url});
+
+      if (!cache)
+        return null;
 
       // Check TTL
       const cacheDate = new Date(cache.date);

@@ -33,7 +33,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
 //
 http.createServer(async (req, res) => {
   // Read cache
-  const cache = await db.readCache(req.url);
+  const cache = await db.readCache(req.method, req.url);
   if (!cache)
     proxy.web(req, res);
   else {
