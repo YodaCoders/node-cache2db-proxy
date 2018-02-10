@@ -20,6 +20,8 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
     let body = [...Buffer.concat(chunks)];
     db.writeCache({
       url: req.url,
+      method: req.method,
+      statusCode: proxyRes.statusCode,
       resHeaders: proxyRes.headers,
       resBody: body
     });
@@ -29,8 +31,18 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
 //
 // Create your target server
 //
-http.createServer(function (req, res) {
-  proxy.web(req, res);
+http.createServer(async (req, res) => {
+  // Read cache
+  const cache = await db.readCache(req.url);
+  if (!cache)
+    proxy.web(req, res);
+  else {
+    res.statusCode = cache.statusCode;
+    res.setHeader('content-type', cache.resHeaders['content-type']);
+    res.setHeader('content-encoding', cache.resHeaders['content-encoding']);
+    res.end(Buffer.from(cache.resBody));
+  }
+  // proxy.web(req, res);
 }).listen(port);
 
 console.log(`Server started at ${port}`);
