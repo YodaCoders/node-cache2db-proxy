@@ -25,6 +25,8 @@
   "homepage": "https://github.com/YodaCoders/node-cache2db-proxy#readme",
   "dependencies": {
     "config": "^1.29.4",
-    "http-proxy": "^1.16.2"
+    "death": "^1.1.0",
+    "http-proxy": "^1.16.2",
+    "mongodb": "^3.0.2"
   }
 }

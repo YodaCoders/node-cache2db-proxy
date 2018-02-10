@@ -1,6 +1,7 @@
 const http = require('http');
 const httpProxy = require('http-proxy');
 const config = require('config');
+const db = require('./db');
 const port = config.port;
 const proxyOptions = {...config.proxy};
 
@@ -15,19 +16,14 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
   proxyRes.on('data', (chunk) => {
     chunks.push(chunk);
   });
-  proxyRes.on('end', () =>
-  {
-    let body = Buffer.concat(chunks).buffer;
-    console.log(body);
-
-    // proxyRes.
-    // write response to database
-    let data = {};
-    data.url = req.url;
-    data.resHeaders = res.headers;
-    data.resBody = body;
-    data.ttl = 1000; // TODO take from config
-    console.log(data); // TODO write to database
+  proxyRes.on('end', () => {
+    let body = [...Buffer.concat(chunks)];
+    db.cache({
+      url: req.url,
+      resHeaders: proxyRes.headers,
+      resBody: body,
+      ttl: 1000 // TODO take from config
+    });
   });
 });
 

@@ -4,5 +4,9 @@
     "target": "https://www.host.com:8245/",
     "secure": false
   },
-  "port": 9000
+  "port": 9000,
+  "database": {
+    "url": "mongodb://localhost:27017",
+    "name": "db"
+  }
 }
