@@ -1,7 +1,9 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const onDeath = require('death');
-const dbConfig = require('config').get('database');
+const config = require('config')
+const dbConfig = config.get('database');
+const ttl = config.get('ttl');
 
 // onDeath((signal,  err) => {
 //   // clien.close
@@ -20,8 +22,7 @@ class CacheDb {
 
   async cache (data) {
     // Insert/Update some documents
-    this.collection.updateOne({url: data.url}, {$set: {...data}},  {upsert: true})
-      .then(res => console.log(res))
+    this.collection.updateOne({url: data.url}, {$set: {...data, ttl}},  {upsert: true})
       .catch(err => {throw err});
   }
 }

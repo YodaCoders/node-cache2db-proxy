@@ -4,6 +4,7 @@
     "target": "https://www.host.com:8245/",
     "secure": false
   },
+  "ttl": 2.628e+6,
   "port": 9000,
   "database": {
     "url": "mongodb://localhost:27017",

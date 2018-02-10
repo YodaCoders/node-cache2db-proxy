@@ -21,8 +21,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
     db.cache({
       url: req.url,
       resHeaders: proxyRes.headers,
-      resBody: body,
-      ttl: 1000 // TODO take from config
+      resBody: body
     });
   });
 });
