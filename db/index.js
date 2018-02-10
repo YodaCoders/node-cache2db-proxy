@@ -20,7 +20,7 @@ class CacheDb {
       // this.db = client.db(dbConfig.name);
   }
 
-  async cache (data) {
+  async writeCache (data) {
     // Insert/Update some documents
     this.collection.updateOne({url: data.url}, {$set: {...data, ttl}},  {upsert: true})
       .catch(err => {throw err});

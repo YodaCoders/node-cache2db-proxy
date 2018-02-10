@@ -18,7 +18,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
   });
   proxyRes.on('end', () => {
     let body = [...Buffer.concat(chunks)];
-    db.cache({
+    db.writeCache({
       url: req.url,
       resHeaders: proxyRes.headers,
       resBody: body
