@@ -46,8 +46,12 @@ http.createServer(async (req, res) => {
     proxy.web(req, res);
   else {
     res.statusCode = cache.statusCode;
-    res.setHeader('content-type', cache.resHeaders['content-type']);
-    res.setHeader('content-encoding', cache.resHeaders['content-encoding']);
+
+    const contentType = cache.resHeaders['content-type'];
+    if (contentType) res.setHeader('content-type', contentType);
+
+    const contentEncoding = cache.resHeaders['content-encoding'];
+    if (contentEncoding) res.setHeader('content-encoding', contentEncoding);
     res.end(Buffer.from(cache.resBody));
   }
   // proxy.web(req, res);
