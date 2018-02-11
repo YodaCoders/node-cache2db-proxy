@@ -4,6 +4,7 @@ const config = require('config');
 const db = require('./db');
 const port = config.get('port');
 const proxyOptions = {...config.proxy};
+const authToken = config.get('authToken');
 
 //
 // Create your proxy server and set the target in the options.
@@ -32,6 +33,13 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
 // Create your target server
 //
 http.createServer(async (req, res) => {
+  // Authorization
+  if (authToken && req.headers['authorization'] !== authToken) {
+      res.statusCode = 401;
+      res.end();
+      return
+  }
+
   // Read cache
   const cache = await db.readCache(req.method, req.url);
   if (!cache)
