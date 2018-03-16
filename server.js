@@ -18,6 +18,10 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
     chunks.push(chunk);
   });
   proxyRes.on('end', () => {
+    // Skip response if statusCode isn't equal 200
+    if (proxyRes.statusCode !== 200)
+      return;
+
     let body = [...Buffer.concat(chunks)];
     db.writeCache({
       url: req.url,
@@ -44,6 +48,7 @@ http.createServer(async (req, res) => {
   const cache = await db.readCache(req.method, req.url);
   if (!cache)
     proxy.web(req, res);
+  // TODO handle the case when server returns error. Need to return cache in any case, even if it's expired
   else {
     res.statusCode = cache.statusCode;
 
