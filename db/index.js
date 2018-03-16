@@ -16,7 +16,7 @@ class CacheDb {
           this.db = client.db(dbConfig.name);
           this.collection = this.db.collection('cache');
         })
-        .catch(err => {console.log('Cannot connect to database.')});
+        .catch(err => {console.log('Cannot connect to database: ' + err.message)});
       // this.db = client.db(dbConfig.name);
   }
 
