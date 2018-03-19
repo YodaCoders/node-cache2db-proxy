@@ -5,6 +5,7 @@ const db = require('./db');
 const port = config.get('port');
 const proxyOptions = {...config.proxy};
 const authToken = config.get('authToken');
+const checkTtl = config.get('checkTtl');
 
 //
 // Create your proxy server and set the target in the options.
@@ -14,9 +15,11 @@ const proxy = httpProxy.createProxyServer(proxyOptions);
 // Received response event
 proxy.on('proxyRes', (proxyRes, req, res) => {
   let chunks = [];
+
   proxyRes.on('data', (chunk) => {
     chunks.push(chunk);
   });
+
   proxyRes.on('end', () => {
     // Skip response if statusCode isn't equal 200
     if (proxyRes.statusCode !== 200)
@@ -46,10 +49,20 @@ http.createServer(async (req, res) => {
 
   // Read cache
   const cache = await db.readCache(req.method, req.url);
+
   if (!cache)
     proxy.web(req, res);
-  // TODO handle the case when server returns error. Need to return cache in any case, even if it's expired
   else {
+    // Check TTL
+    if (checkTtl){
+      const cacheDate = new Date(cache.date);
+      const isExpired = Date.now() - cacheDate.getTime() > cache.ttl;
+      if (isExpired){
+        proxy.web(req,  res);
+        return
+      }
+    }
+
     res.statusCode = cache.statusCode;
 
     const contentType = cache.resHeaders['content-type'];

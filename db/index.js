@@ -31,14 +31,7 @@ class CacheDb {
   async readCache(method, url) {
     try {
       const cache = await this.collection.findOne({method, url});
-
-      if (!cache)
-        return null;
-
-      // Check TTL
-      const cacheDate = new Date(cache.date);
-      const isExpired = Date.now() - cacheDate.getTime() > cache.ttl;
-      return isExpired ? null : cache;
+      return cache;
     } catch (err) {
       throw err;
     }
