@@ -65,7 +65,7 @@ http.createServer(async (req, res) => {
           // Call target url
           const proxyRes = await fetch(`${proxyOptions.target}${req.url}`, {
             method: req.method,
-            headers: {...req.headers, host: 'acat.online', authorization: proxyOptions.headers.Authorization},
+            headers: {...req.headers, host: 'acat.online', authorization: proxyOptions.headers.authorization},
             // TODO implement body support
             body: null
           })
